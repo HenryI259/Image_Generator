@@ -30,8 +30,8 @@ class network():
       activation = self.function(np.dot(self.weights[i], activation) + self.biases[i])
     return activation
 
-  def generateImage(self):
-      array = np.array([int(x*255) for x in self.forward()]).reshape(50, 50, 3)
+  def generateImage(self, imageSize):
+      array = np.array([255-int(x*255) for x in self.forward()]).reshape(imageSize[0], imageSize[1], 3)
       return Image.fromarray(array.astype(np.uint8))
 
   def cost(self, array):

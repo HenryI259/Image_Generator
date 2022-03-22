@@ -18,24 +18,24 @@ def getImages(image, amount):
 			except:
 				os.rename(f'simple_images\{image}\{image}_{i+3}.png', f'simple_images\{image}\{i}.jpeg')
 
-def imageToArray(fileName):
+def imageToArray(fileName, imageSize):
 	image = Image.open(fileName)
-	if image.size != (50, 50):
-		image = image.resize((50, 50))
+	if image.size != (imageSize[0], imageSize[1]):
+		image = image.resize((imageSize[0], imageSize[1]))
 	array = np.asarray(image)
 	try:
-		return array.reshape(7500, 1) / 255
+		return array.reshape(imageSize[0] * imageSize[1] * 3, 1) / 255
 	except:
 		pass
 
-def getData(image, amount, saveData=True, record=False):
+def getData(image, amount, imageSize, saveData=True, record=False):
 	if os.path.exists(f'image_data\{image}.pkl.gz'):
 		f = gzip.open(f"image_data\{image}.pkl.gz", 'rb')
 		arrays = pkl.load(f, encoding='latin1')
 		f.close()
 	else:
 		getImages(image, amount)
-		arrays = [imageToArray(f'simple_images\{image}\{i}.jpeg') for i in range(amount)]
+		arrays = [imageToArray(f'simple_images\{image}\{i}.jpeg', imageSize) for i in range(amount)]
 		arrays = list(filter((None).__ne__, arrays))
 		if saveData:
 			f = gzip.open(f'image_data\{image}.pkl.gz', 'w')

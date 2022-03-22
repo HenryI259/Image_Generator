@@ -5,13 +5,14 @@ import gzip
 import numpy as np
 
 def main():
-    network1 = network([1, 7500], 'heaven4')
-    arrays = getData('heaven', 10000, record=True)
-    image = network1.generateImage()
-    image.save('HeavenI.png')
-    network1.train([arrays[0] for i in range(50000)], 5000, 1, cycles=1, record=True, saveData=True)
-    image = network1.generateImage()
-    image.save('HeavenF.png')
+    imageSize = (4000, 4000)
+    
+    imageNetwork = network([1, imageSize[0]*imageSize[1]*3])
+    arrays = getData('space', 10, imageSize, record=True)
+    image = imageNetwork.generateImage(imageSize)
+    imageNetwork.train(arrays[0:7], 2500, 7, cycles=1, record=True)
+    image = imageNetwork.generateImage(imageSize)
+    image.save('image.png')
 
 if __name__ == '__main__':
     main()
