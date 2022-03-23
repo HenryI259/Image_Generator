@@ -1,0 +1,6 @@
+*.jpeg
+*.pkl
+*.gz
+*.pyc
+*.vs
+__pycache__
