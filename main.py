@@ -5,12 +5,11 @@ import gzip
 import numpy as np
 
 def main():
-    imageSize = (4000, 4000)
+    imageSize = (750, 750)
     
     imageNetwork = network([1, imageSize[0]*imageSize[1]*3])
-    arrays = getData('space', 10, imageSize, record=True)
-    image = imageNetwork.generateImage(imageSize)
-    imageNetwork.train(arrays[0:7], 2500, 7, cycles=1, record=True)
+    arrays = getData('space', 3, imageSize, record=True)
+    imageNetwork.train(arrays, 2500, len(arrays), cycles=1, record=True)
     image = imageNetwork.generateImage(imageSize)
     image.save('image.png')
 

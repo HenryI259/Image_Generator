@@ -28,17 +28,19 @@ def imageToArray(fileName, imageSize):
 	except:
 		pass
 
-def getData(image, amount, imageSize, saveData=True, record=False):
+def getData(image, amount, imageSize, record=False):
+	iSize = ()
+	a = -1
 	if os.path.exists(f'image_data\{image}.pkl.gz'):
 		f = gzip.open(f"image_data\{image}.pkl.gz", 'rb')
-		arrays = pkl.load(f, encoding='latin1')
+		arrays, iSize, a = pkl.load(f, encoding='latin1')
 		f.close()
-	else:
+
+	if iSize != imageSize or a != amount or not os.path.exists(f'image_data\{image}.pkl.gz'):
 		getImages(image, amount)
 		arrays = [imageToArray(f'simple_images\{image}\{i}.jpeg', imageSize) for i in range(amount)]
 		arrays = list(filter((None).__ne__, arrays))
-		if saveData:
-			f = gzip.open(f'image_data\{image}.pkl.gz', 'w')
-			pkl.dump(arrays, f)
-			f.close()
+		f = gzip.open(f'image_data\{image}.pkl.gz', 'w')
+		pkl.dump((arrays, imageSize, amount), f)
+		f.close()
 	return arrays
