@@ -36,11 +36,11 @@ def getData(image, amount, imageSize, record=False):
 		arrays, iSize, a = pkl.load(f, encoding='latin1')
 		f.close()
 
-	if iSize != imageSize or a != amount or not os.path.exists(f'image_data\{image}.pkl.gz'):
+	if iSize != imageSize or a < amount or not os.path.exists(f'image_data\{image}.pkl.gz'):
 		getImages(image, amount)
 		arrays = [imageToArray(f'simple_images\{image}\{i}.jpeg', imageSize) for i in range(amount)]
 		arrays = list(filter((None).__ne__, arrays))
 		f = gzip.open(f'image_data\{image}.pkl.gz', 'w')
 		pkl.dump((arrays, imageSize, amount), f)
 		f.close()
-	return arrays
+	return arrays[:amount]
