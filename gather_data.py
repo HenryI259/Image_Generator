@@ -28,7 +28,7 @@ def imageToArray(fileName, imageSize):
 	except:
 		pass
 
-def getData(image, amount, imageSize, record=False):
+def getData(image, amount, imageSize):
 	iSize = ()
 	a = -1
 	if os.path.exists(f'image_data\{image}.pkl.gz'):

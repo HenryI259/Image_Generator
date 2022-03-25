@@ -6,13 +6,19 @@ import numpy as np
 import os.path
 
 def main():
-    imageSize = (1000, 1000)
-    
+    generateImage(
+        imageName='nature',
+        imageSize=(3000, 3000),
+        dataAmount=5,
+        record=True
+    )
+
+def generateImage(imageName='', imageSize=(100, 100), dataAmount=3, record=False, saveNetwork=False, saveImage=True):
     imageNetwork = network([1, imageSize[0]*imageSize[1]*3])
-    arrays = getData('space', 5, imageSize, record=True)
-    imageNetwork.train(arrays, 1000, len(arrays), cycles=1, record=True)
+    arrays = getData(imageName, dataAmount, imageSize)
+    imageNetwork.train(arrays, 1000, len(arrays), record=record, saveData=saveNetwork)
     image = imageNetwork.generateImage(imageSize)
-    image.save('image.png')
+    if saveImage: image.save(f'{imageName}.png')
 
 def removeData(network, arrays, name):
     if network:
